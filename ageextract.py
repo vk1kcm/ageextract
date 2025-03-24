@@ -29,7 +29,10 @@ numimported = 0
 numfailed = 0
 failedlist = []
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(
+    description='Process FIE XML from a single event and produce rankings based on age categories.'
+)
+parser.add_argument('-s', '--sequential', help='Output places in strict sequential order, rather than having dual bronze places', action='store_true')
 parser.add_argument("xmlfile", help="The xml input file in FIE 2019+ format")
 # parser.add_argument("attendees", help="File to store attending members")
 args = parser.parse_args()
@@ -109,7 +112,11 @@ def getresults(minage, maxage, category):
     print("\"Age Ranking\",\"Name\",\"Age\",\"Gender\",\"Event Ranking\"")
     for thisfencer in fencerlist:
         ageclass = ageclass + 1
-        print(ageclass, ",", str(thisfencer).strip("()").replace("'", "\"").replace(", ", ","), sep="")
+        if (not args.sequential and ageclass == 4):
+            print(3, sep='', end='') 
+        else:
+            print(ageclass, sep='', end='') 
+        print(",", str(thisfencer).strip("()").replace("'", "\"").replace(", ", ","), sep="")
     print()
 
     print(category, "Men - Ages", minage, "to", maxage)
@@ -119,7 +126,11 @@ def getresults(minage, maxage, category):
     print("\"Age Ranking\",\"Name\",\"Age\",\"Gender\",\"Event Ranking\"")
     for thisfencer in fencerlist:
         ageclass = ageclass + 1
-        print(ageclass, ",", str(thisfencer).strip("()").replace("'", "\"").replace(", ", ","), sep="")
+        if (not args.sequential and ageclass == 4):
+            print(3, sep='', end='') 
+        else:
+            print(ageclass, sep='', end='') 
+        print(",", str(thisfencer).strip("()").replace("'", "\"").replace(", ", ","), sep="")
     print()
 
 getresults(1, 8, "U9")
